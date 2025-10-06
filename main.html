@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Write Game</title>
+    <link rel="stylesheet" href="mian.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <div class="Game">
+        <div class="Name">typing Speed Test Game</div>
+        <div class="Container">
+            <div class="MSG">
+                You Are Playing On
+                <select class="lvl">
+                    <option value="Easy" selected>Easy</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                Level You Have
+                <span class="Seconds"></span>
+                Seconds To Write The Text
+            </div>
+            <div class="Start">Start Playing</div>
+            <div class="the-word"></div>
+            <input type="text" class="input" placeholder="Write The Text Here" autofocus>
+            <div class="upcoming_words">words will show up here</div>
+            <div class="control">
+                <div class="time">Time Left: <span class="timeSpan"></span></div>
+                <div class="score">Your Score: <span class="Got">0</span> from <span class="Total">0</span></div>
+            </div>
+            <div class="finish"></div>
+            <div class="discrption"></div>
+        </div>
+    </div>
+    <!-- Audio -->
+<audio src="./glock-new-idea-twinkle-om-fx-1-00-04.mp3" class="one"></audio>
+<audio src="./meme-fail-alert-locran-1-00-01.mp3" class="two"></audio>
+</body>
+    <script src="main.js"></script>
+</html>
