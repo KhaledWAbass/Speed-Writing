@@ -41,6 +41,7 @@ let selectLevel = document.querySelector(".lvl");
 let discEle = document.querySelector(".discrption")
 let audioOne = document.querySelector(".one")
 let audioTwo = document.querySelector(".two")
+
 // Default level
 let defaultLevelName = lvlNameSpan.innerHTML; // Default level
 let defaultLevel = levels[defaultLevelName]; // Default level value
@@ -48,6 +49,8 @@ let disc = discrptionArr[defaultLevelName]
 discEle.innerHTML = disc
 let arr = ArrWords.Easy;
 scoreTotal.innerHTML = ArrWords.Easy.length
+    getFromLocal()
+
 // Change level
 selectLevel.addEventListener("change",   function () { 
     let op = document.querySelector(".MSG .lvl option:checked");
@@ -62,21 +65,25 @@ selectLevel.addEventListener("change",   function () {
     discEle.innerHTML = disc
     scoreTotal.innerHTML = ArrWords[defaultLevelName].length;
     arr = ArrWords[defaultLevelName];
+    saveLvl(defaultLevelName, defaultLevel, disc)
     return arr
 })
+
 // Change level name and seconds
 secondsSpan.innerHTML = defaultLevel;
-timeLeftSpan.innerHTML = defaultLevel ;
-// events
+timeLeftSpan.innerHTML = defaultLevel;
+
 // input.onpaste = function () {
 //     return false;
 // }
+
 function random(arr) {
     let randomWord = arr[Math.floor(Math.random() * arr.length)];
     let index = arr.indexOf(randomWord)
     arr.splice(index, 1)
     theWord.innerHTML = randomWord
 }
+
 function genWords() {
     // random words
     random(arr)
@@ -87,6 +94,7 @@ function genWords() {
     // call start play function
     startPlay();
 }
+
 function createElements(arr) {
   arr.forEach(e => {
         let div = document.createElement("div")
@@ -96,7 +104,18 @@ function createElements(arr) {
     })
 }
 
+let stauts = true
+
 function startPlay() { 
+    let bouns = 3;
+    if (stauts) {
+        defaultLevel = defaultLevel + bouns;
+timeLeftSpan.innerHTML = defaultLevel
+stauts = false
+} else {
+timeLeftSpan.innerHTML = defaultLevel -bouns
+    timeLeftSpan.innerHTML = defaultLevel -bouns
+    }
     let start = setInterval(() => {
         timeLeftSpan.innerHTML--
         if (timeLeftSpan.innerHTML == "0") {
@@ -149,6 +168,7 @@ function startPlay() {
     }, 1000);
 
 }
+
 function SaveToLocal(param) { 
     let data = new Date()
     let save = {
@@ -157,6 +177,48 @@ function SaveToLocal(param) {
         time : `${data.getHours()}:${data.getMinutes()}:${data.getSeconds()}`
     }
     window.localStorage.setItem("keys", JSON.stringify(save))
+}
+
+function saveLvl(name,time,disc) {
+    let lvl = {
+        namelvl:name,
+        timelvl:time,
+        disclvl:disc
+    }
+window.localStorage.setItem("lvl",JSON.stringify(lvl))
+}
+
+function getFromLocal() {
+    let x = window.localStorage.getItem("lvl")
+    if (x) {
+        let data = JSON.parse(x)
+        AdToPage(data)
+    }
+}
+function AdToPage(e) {
+    if (!e) return;
+
+    // Apply stored time and update globals
+    if (secondsSpan) secondsSpan.textContent = e.timelvl;
+    if (timeLeftSpan) timeLeftSpan.textContent = e.timelvl;
+    if (typeof e.timelvl !== "undefined") {
+        defaultLevel = Number(e.timelvl) || defaultLevel;
+    }
+
+    // Apply stored description
+    if (e.disclvl && discEle) discEle.textContent = e.disclvl;
+
+    // Apply stored level name: update select, defaults and word list
+    if (e.namelvl) {
+        defaultLevelName = e.namelvl;
+        if (selectLevel) {
+            selectLevel.value = e.namelvl;
+        }
+        if (ArrWords[e.namelvl]) {
+            arr = ArrWords[e.namelvl];
+            if (scoreTotal) scoreTotal.innerHTML = arr.length;
+        }
+    }
 }
 // start game
 startButton.onclick = function () {
