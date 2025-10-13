@@ -73,9 +73,9 @@ selectLevel.addEventListener("change",   function () {
 secondsSpan.innerHTML = defaultLevel;
 timeLeftSpan.innerHTML = defaultLevel;
 
-// input.onpaste = function () {
-//     return false;
-// }
+input.onpaste = function () {
+    return false;
+}
 
 function random(arr) {
     let randomWord = arr[Math.floor(Math.random() * arr.length)];
